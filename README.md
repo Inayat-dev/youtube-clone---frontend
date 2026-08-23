@@ -24,10 +24,9 @@ A React frontend for the [YouTube Clone backend](https://github.com/Inayat-dev/y
 | Layer | Technology |
 |---|---|
 | Framework | React (Vite) |
-| Styling | Tailwind CSS |
 | Routing | React Router |
 | API calls | Axios |
-| State management | Context API / Redux Toolkit *(pick one as the app grows)* |
+| State management | Context API|
 | Backend | [youtube-clone](https://github.com/Inayat-dev/youtube-clone) — Node.js, Express, MongoDB |
 
 ## Connects To (Backend API)
