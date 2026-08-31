@@ -1,0 +1,198 @@
+.login-container{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.login{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    padding: 0px 40px 0  40px;
+    border-radius: 14px;
+    width: 50%;
+    height: 100vh;
+    overflow: scroll;
+}
+
+.login::-webkit-scrollbar{
+    display: none;
+}
+
+.hero-image{
+    width: 50%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.img-hero{
+    min-width: 600px;
+    max-width: 100%;
+}
+
+.login-form{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.login-heading{
+    font-size: 60px;
+}
+
+.login-punch{
+    color:rgb(148 163 184 / var(--tw-text-opacity, 1));
+    font-size: 14px;
+    margin: -20px 0 30px 0;
+}
+
+.login-form > label{
+    font-size: 14px;
+}
+
+.login-form > input{
+    background-color: black;
+    border: 1px solid white;
+    padding: 15px;
+    margin: 7px 0 18px 0;
+    color: white;
+    font-size: 16px;
+}
+
+.login-form > button {
+    width: 100%;
+    background-color: #ae7aff;
+    padding: 0.8rem;
+    text-align: center;
+    font-weight: 800;
+    color: #000000;
+    box-shadow: 5px 5px 0px 0px #4f4e4e;
+    transition: all 150ms ease-in-out;
+    font-size: medium;
+}
+
+.login-form > button:active {
+    transform: translate(5px, 5px);
+    box-shadow: 0px 0px 0px 0px #4f4e4e;
+}
+
+.options{
+    display: flex;
+    justify-content: space-between;
+    margin-top: -10px ;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.options > div{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.remember{
+    width: 24px;
+    height: 24px;
+    background-color: black;
+    border: 1px solid white;
+}
+
+@media (max-width: 1100px) {
+    .hero-image{
+        display: none;
+        width: 0;
+        height: 0;
+    }
+
+    .login{
+        width: 100%;
+    }
+}
+
+.search-bar-input[type=text] {
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  font-size: 16px;
+  background-image: url('./assets/images/searchicon.png');
+  background-position: 10px 10px; 
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+  color: white;
+}
+
+.Header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid white;
+    height: 40px;
+    padding: 20px;
+}
+
+.logo{
+    height: 100%;
+    width: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo > img{
+    width: 60px;
+}
+
+.small-profile{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    border: 1px solid white;
+    padding: 0 10px 0 0;
+    border-radius: 0 100px 100px 0;
+}
+
+.avatar{
+    height: 50px;
+    width: 50px;
+    border: 2px solid #fff;
+    border-radius: 0 100px 100px 0;
+}
+
+.search-bar{
+    width: fit-content;
+}
+
+.search-bar-input{
+    background-color: transparent;
+    border: 1px solid white;
+    width: 40vw;
+}
+
+@media (max-width: 500px) {
+    .small-profile{
+        padding:0;
+    }
+    .small-profile > span {
+        display: none;
+    }
+}
+
+.main-loader{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.sub-loader {
+    animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
