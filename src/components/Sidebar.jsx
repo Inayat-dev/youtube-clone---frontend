@@ -1,13 +1,8 @@
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import {
-  Home,
-  ThumbsUp,
-  History,
-  Video,
-  Folder,
-  UserCheck,
-  HelpCircle,
-  Settings,
+  Home, ThumbsUp, History, Video, Folder,
+  UserCheck, HelpCircle, Settings, Menu, X,
 } from "lucide-react";
 import "../assets/css/Sidebar.css";
 
@@ -25,7 +20,7 @@ const bottomLinks = [
   { to: "/settings", label: "Settings", icon: Settings },
 ];
 
-function NavSection({ items }) {
+function NavSection({ items, onNavigate }) {
   return (
     <>
       {items.map(({ to, label, icon: Icon, end }) => (
@@ -33,12 +28,13 @@ function NavSection({ items }) {
           key={to}
           to={to}
           end={end}
+          onClick={onNavigate}
           className={({ isActive }) =>
             `sidebar__item${isActive ? " sidebar__item--active" : ""}`
           }
         >
           <Icon size={18} strokeWidth={1.8} className="sidebar__icon" />
-          <span>{label}</span>
+          <span className="sidebar__label">{label}</span>
         </NavLink>
       ))}
     </>
@@ -46,15 +42,24 @@ function NavSection({ items }) {
 }
 
 export default function Sidebar() {
-  return (
-    <aside className="sidebar">
-      <nav className="sidebar__section">
-        <NavSection items={mainLinks} />
-      </nav>
+  const [open, setOpen] = useState(false);
 
-      <nav className="sidebar__section sidebar__section--bottom">
-        <NavSection items={bottomLinks} />
-      </nav>
-    </aside>
+  return (
+    <>
+      <button className="sidebar__toggle" onClick={() => setOpen(o => !o)} aria-label="Toggle menu">
+        {open ? <X size={22} /> : <Menu size={22} />}
+      </button>
+
+      {open && <div className="sidebar__backdrop" onClick={() => setOpen(false)} />}
+
+      <aside className={`sidebar${open ? " sidebar--open" : ""}`}>
+        <nav className="sidebar__section">
+          <NavSection items={mainLinks} onNavigate={() => setOpen(false)} />
+        </nav>
+        <nav className="sidebar__section sidebar__section--bottom">
+          <NavSection items={bottomLinks} onNavigate={() => setOpen(false)} />
+        </nav>
+      </aside>
+    </>
   );
 }

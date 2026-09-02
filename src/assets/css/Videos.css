@@ -3,7 +3,7 @@
     padding: 20px;
     width: 100%;
     grid-template-columns: auto auto auto;
-    height:95vh;
+    height:90vh;
     overflow: scroll;
 }
 
