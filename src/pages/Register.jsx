@@ -9,17 +9,18 @@ export default function Register() {
     const { register, error } = React.useContext(authContext)
     const navigate = useNavigate()
     const [submitting, setSubmitting] = React.useState(false)
+        
 
-    
-
-    async function handleSubmit(formData) {
+    function handleSubmit(formData) {
         setSubmitting(true)
-        const result = await register(formData)
-        setSubmitting(false)
+        register(formData).then((result)=>{
+            setSubmitting(false)
 
-        if (result.success) {
-            navigate('/login')
-        }
+            if (result.success) {
+                navigate('/login/success/'+result.user.username)
+            }
+        })
+        
     }
 
     return (

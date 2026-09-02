@@ -1,0 +1,99 @@
+.videoCardLink{
+  text-decoration: none;
+  color: inherit;
+    border-radius: 4px;
+}
+
+.videoCardLink:hover{
+    background-color: black;
+    
+}
+
+.VideoCard {
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 40 / 27;
+    overflow: hidden;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    color: white;
+    text-decoration: none;
+    padding-top: 10px;
+    margin-bottom: 10px;
+}
+
+@media (max-width:1450px) {
+    .VideoCard{
+        max-width: 320px;
+    }
+}
+
+@media (max-width:900px) {
+    .VideoCard{
+        max-width: 630px;
+    }
+}
+
+
+.videoThumbnail {
+    flex: 1 1 70%;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: end;
+    justify-content: end;
+}
+
+.videoThumbnail > span {
+    background-color: #37373772;
+    padding: 2px 4px;
+    font-size: clamp(11px, 2.8vw, 15px);
+    border-radius: 4px;
+    margin: 5px;
+}
+
+.details {
+    width: 100%;
+    flex: 0 0 30%;
+    display: flex;
+    align-items: center;
+    gap: clamp(6px, 2vw, 10px);
+    padding: 0 4px;
+    min-width: 0; /* text ellipsis ke liye zaroori */
+}
+
+.img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.img > img {
+    width: clamp(32px, 10vw, 45px);
+    height: clamp(32px, 10vw, 45px);
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.details > div:last-child {
+    min-width: 0;
+}
+
+.details p {
+    margin: 0;
+    font-size: clamp(12px, 3vw, 14px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 380px) {
+    .VideoCard {
+        max-width: 100%;
+    }
+}
+

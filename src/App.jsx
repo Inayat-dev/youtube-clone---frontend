@@ -7,6 +7,7 @@ import Home from './pages/Home'
 import Register from './pages/Register'
 import ForgetPassword from './pages/forgetpassword'
 import Loading from './components/Loading'
+import { NotificationProvider } from './context/Notificationcontext'
 
 
 function App() {
@@ -26,15 +27,18 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={check()}/>
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/home" element={<Home/>}/>
-        <Route path="/register" element={<Register/>}/>
-        <Route path="/forget-password" element={<ForgetPassword/>}/>
-      </Routes>
-    </BrowserRouter>
+    <NotificationProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={check()}/>
+          <Route path="/login/:message/:username" element={<Login/>}/>
+          <Route path="/login/" element={<Login/>}/>
+          <Route path="/home" element={<Home/>}/>
+          <Route path="/register" element={<Register/>}/>
+          <Route path="/forget-password" element={<ForgetPassword/>}/>
+        </Routes>
+      </BrowserRouter>
+    </NotificationProvider>
   )
 }
 

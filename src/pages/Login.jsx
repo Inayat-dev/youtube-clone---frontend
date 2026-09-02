@@ -3,30 +3,40 @@ import { useNavigate } from 'react-router-dom'
 import { authContext } from '../context/AuthContext'
 import Error from '../components/Error'
 import { NavLink } from 'react-router-dom'
+import { useNotification } from '../context/Notificationcontext'
+import { useParams } from 'react-router-dom'
 
 
 export default function Login() {
     const { login, error } = React.useContext(authContext)
     const navigate = useNavigate()
+    const notify = useNotification()
     const [submitting, setSubmitting] = React.useState(false)
+    const {username, success} = useParams()
+    React.useEffect(() => {
+        if (success) {
+            notify.success(' Register Successfully')
+        }
+    }, [])
 
-    async function handleSubmit(formData) {
+    function handleSubmit(formData) {
         setSubmitting(true)
-
-        const result = await login({
+        login({
             email: formData.get("email"),
             password: formData.get("password")
+        }).then((result)=>{
+            setSubmitting(false)
+
+            if (result.success) {
+                navigate('/home')
+            }
         })
-
         setSubmitting(false)
-
-        if (result.success) {
-            navigate('/home')
-        }
     }
 
     return (
         <>
+        {    success != undefined?notify.success(username+' Register Successfully '):""}
             <div className='login-container'>
                 <div className='login'>
                     <h2 className='login-heading'>Log in</h2>

@@ -31,6 +31,7 @@ export default function AuthContext({ children }) {
     }
 
     async function register(formData) {
+        
         setError(null)
         try {
             const res = await Api.post('/users/register', formData, {
@@ -38,6 +39,7 @@ export default function AuthContext({ children }) {
             })
             return { success: true, user: res.data.data }
         } catch (err) {
+            console.log(err.response)
             const message = err.response?.data?.message || 'Registration failed'
             setError(message)
             return { success: false, message }
@@ -54,7 +56,8 @@ export default function AuthContext({ children }) {
 
             return { success: true, user: loggedInUser }
         } catch (err) {
-            const message = err.response?.data?.message || 'Login failed'
+            console.log(err.response)
+            const message = err?.response?.data?.message || 'Login failed'
             setError(message)
             return { success: false, message }
         }

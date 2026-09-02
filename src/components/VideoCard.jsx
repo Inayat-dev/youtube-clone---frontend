@@ -7,6 +7,31 @@ function formatDuration(seconds = 0) {
   return `${m}:${s.toString().padStart(2, "0")}`;
 }
 
+function view(v) {
+  let count = String(v).length
+  if (count <= 4) {
+    return v
+  } else if (count == 5) {
+    return String(v)[0] + String(v)[1] + "K"
+  } else if (count == 6) {
+    return String(v)[0] + String(v)[1] + String(v)[2] + "K"
+  } else if (count == 7) {
+    return String(v)[0] + "." + String(v)[1] + "M"
+  } else if (count == 8) {
+    return String(v)[0] + String(v)[1] + "M"
+  } else if (count == 9) {
+    return String(v)[0] + String(v)[1] + String(v)[2] + "M"
+  } else if (count == 10) {
+    return String(v)[0] + "." + String(v)[1] + "B"
+  } else if (count == 11) {
+    return String(v)[0] + String(v)[1] + "B"
+  } else if (count == 12) {
+    return String(v)[0] + String(v)[1] + String(v)[2] + "B"
+  } else {
+    return String(v)   
+  }
+}
+
 function timeAgo(date) {
   if (!date) return "";
   const diff = Date.now() - new Date(date).getTime();
@@ -24,11 +49,27 @@ function timeAgo(date) {
 export default function VideoCard({ video }) {
   const { _id, thumbnail, title, duration, views, createdAt, owner } = video;
 
-  const ownerName = owner?.username || owner?.fullName || "Unknown creator";
-  const ownerAvatar = owner?.avatar;
+  const ownerName = owner[0]?.username || owner[0]?.fullName || "Unknown creator";
+  const ownerAvatar = owner[0]?.avatar;
+  console.log(ownerAvatar)
 
   return (
-    <>
-    </>
+    <Link to={"/video/"+_id} className="videoCardLink">
+      <div className="VideoCard" style={{textDecoration:" none !important"}} >
+        <div className="videoThumbnail" style={{backgroundImage:"url("+thumbnail+")"}}>
+          <span>{formatDuration(duration)}</span>
+        </div>
+        <div className="details">
+            <div className="img">
+              <img src={''+ownerAvatar} alt="logo" />
+            </div>
+            <div>
+              <p>{title}</p>
+              <p>{ownerName}</p>
+              <p>{view(views)} • {timeAgo(createdAt)}</p>
+            </div>
+        </div>
+      </div>
+    </Link>
   );
 }

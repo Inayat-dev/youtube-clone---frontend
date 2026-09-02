@@ -18,11 +18,21 @@ export default function Videos() {
         fetchData()
     }, [])
 
-    if (loading) return null // ya ek loader component daal do
+    
+
+    const videoElements = videos.map((video)=>{
+        return <VideoCard video={video}/>
+    })
+
+    if (loading) return null 
 
     return (
         <div className='video-container'>
-            <EmptyVideo />
+            {
+                videos.length==0?
+                    <EmptyVideo />:
+                    videoElements
+            }
         </div>
     )
 }
