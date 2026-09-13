@@ -39,7 +39,6 @@ export default function AuthContext({ children }) {
             })
             return { success: true, user: res.data.data }
         } catch (err) {
-            console.log(err.response)
             const message = err.response?.data?.message || 'Registration failed'
             setError(message)
             return { success: false, message }
@@ -56,7 +55,6 @@ export default function AuthContext({ children }) {
 
             return { success: true, user: loggedInUser }
         } catch (err) {
-            console.log(err.response)
             const message = err?.response?.data?.message || 'Login failed'
             setError(message)
             return { success: false, message }

@@ -1,9 +1,12 @@
 import { useContext } from 'react'
 import logo from "../assets/images/logo.png"
+import defaultLogo from "../assets/images/default_profile.png"
 import { authContext } from '../context/AuthContext'
 
 export default function Header() {
   const { user } = useContext(authContext)
+
+  
 
   return (
     <header className="Header">
@@ -17,11 +20,11 @@ export default function Header() {
 
       <div className="small-profile">
         <img
-          src={user?.data?.avatar}
+          src={user?.data?.avatar ? user?.data?.avatar:defaultLogo }
           alt={user?.data?.username || "profile"}
           className="avatar"
         />
-        <span>{user?.data?.username}</span>
+        <span>{user?.data?.username ? user?.data?.username:"Guest"}</span>
       </div>
     </header>
   )

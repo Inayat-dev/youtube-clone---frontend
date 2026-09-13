@@ -1,6 +1,6 @@
 .sidebar {
   width: 230px;
-  height: 90.8vh;
+  height: 100vh;
   background: transparent;
   border-right: 2px solid #fff;
   display: flex;
@@ -8,7 +8,10 @@
   padding: 16px 12px;
   box-sizing: border-box;
   font-family: "Segoe UI", system-ui, sans-serif;
-  transition: width 0.2s ease, transform 0.25s ease;
+  transition: width 0.2s ease, transform 0.25s ease;  
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .sidebar__section { display: flex; flex-direction: column; gap: 10px; }

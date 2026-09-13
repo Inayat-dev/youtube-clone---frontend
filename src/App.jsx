@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { authContext } from './context/AuthContext'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
@@ -23,7 +23,7 @@ function App() {
     if(user.data){
       return <Home/>
     }else{
-      return <Login/>
+      return <Login/> 
     }
   }
 

@@ -51,7 +51,6 @@ export default function VideoCard({ video }) {
 
   const ownerName = owner[0]?.username || owner[0]?.fullName || "Unknown creator";
   const ownerAvatar = owner[0]?.avatar;
-  console.log(ownerAvatar)
 
   return (
     <Link to={"/video/"+_id} className="videoCardLink">
