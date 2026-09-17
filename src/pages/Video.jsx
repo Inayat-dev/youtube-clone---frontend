@@ -159,7 +159,7 @@ export default function Video() {
                       </div>
                       <div className='vd-channel-right'  >
                         <button  onClick={handleSubscription}> 
-                          {channel.isSubscribed ? (
+                          {channel?.isSubscribed ? (
                               <>
                                   <UserCheck /> Subscribed
                               </>
