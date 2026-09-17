@@ -46,27 +46,43 @@ function timeAgo(date) {
   return `${Math.floor(months / 12)}y ago`;
 }
 
-export default function VideoCard({ video }) {
+export default function VideoCard({ video, current }) {
   const { _id, thumbnail, title, duration, views, createdAt, owner } = video;
 
   const ownerName = owner[0]?.username || owner[0]?.fullName || "Unknown creator";
   const ownerAvatar = owner[0]?.avatar;
+  if(current == "home")
+    return (
+      <Link to={"/video/"+_id} className="videoCardLink">
+        <div className="VideoCard" style={{textDecoration:" none !important"}} >
+          <div className="videoThumbnail" style={{backgroundImage:"url("+thumbnail+")"}}>
+            <span>{formatDuration(duration)}</span>
+          </div>
+          <div className="details">
+              <div className="img">
+                <img src={''+ownerAvatar} alt="logo" />
+              </div>
+              <div>
+                <p>{title}</p>
+                <p>{ownerName}</p>
+                <p>{view(views)} • {timeAgo(createdAt)}</p>
+              </div>
+          </div>
+        </div>
+      </Link>
+    );
 
+  if(current == "video")
   return (
     <Link to={"/video/"+_id} className="videoCardLink">
-      <div className="VideoCard" style={{textDecoration:" none !important"}} >
-        <div className="videoThumbnail" style={{backgroundImage:"url("+thumbnail+")"}}>
+      <div className='vd-list-item' key={_id}>
+        <div className="vd-list-thumbnail" style={{ backgroundImage: `url(${thumbnail})` }}>
           <span>{formatDuration(duration)}</span>
         </div>
-        <div className="details">
-            <div className="img">
-              <img src={''+ownerAvatar} alt="logo" />
-            </div>
-            <div>
-              <p>{title}</p>
-              <p>{ownerName}</p>
-              <p>{view(views)} • {timeAgo(createdAt)}</p>
-            </div>
+        <div className='vd-list-info'>
+          <div className='vd-list-title'>{title}</div>
+          <div className='vd-list-channel'>{owner[0].username}</div>
+          <div className='vd-list-meta'>{views} Views · {timeAgo(createdAt)}</div>
         </div>
       </div>
     </Link>

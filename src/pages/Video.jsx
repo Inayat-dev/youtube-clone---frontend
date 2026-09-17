@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
 import "../assets/css/videoDetail.css"
-import { ThumbsUp, FolderPlus, UserPlus } from 'lucide-react'
+import { ThumbsUp, FolderPlus, UserPlus, UserCheck } from 'lucide-react'
 import { Api } from '../api/Api'
 import { useParams } from 'react-router-dom'
+import VideoCard from '../components/VideoCard'
 
 export default function Video() {
   const { videoId } = useParams()
@@ -13,6 +14,10 @@ export default function Video() {
   const [error, setError] = useState(null)
   const [commentText, setCommentText] = useState('')
   const [likesCount, setLikeCount] = useState(0)
+  const [videos, setVideos] = useState();
+  const [myLike, setMyLike] = useState();
+  const [channel, setChannel] = useState();
+
 
   function formatDuration(seconds = 0) {
     const m = Math.floor(seconds / 60)
@@ -44,16 +49,35 @@ export default function Video() {
       try {
         const res = await Api.get(`/video/${videoId}`)
         setLikeCount(res.data.data.likes)
+        setMyLike(res?.data?.data?.existingLike == null?false:true)
+        
         if (!ignore) setVideoDetail(res.data.data)
+        
+        return res
           
       } catch (err) {
         if (!ignore) setError(err)
       } finally {
         if (!ignore) setLoading(false)
       }
+    
+      
+    }
+    async function fetchData() {
+        const res = await Api.get("/video")
+        setVideos(res?.data?.data || [])
+        setLoading(false)
     }
 
-    fetchVideo()
+    async function fetchChannel(res){
+      const channel1 = await Api(`/subscription/channel/${res?.watch?.owner?._id}`);
+      setChannel(channel1.data.data)
+    }
+
+    fetchData()
+    fetchVideo().then((res)=>{
+      fetchChannel(res?.data?.data)
+    })
     return () => { ignore = true }
   }, [videoId])
 
@@ -63,10 +87,28 @@ export default function Video() {
     setCommentText('')
   }
 
-  async function handleLike(){
-    const res = await Api.get("/like/toggle/v/"+videoId)
-    const lRes = await Api.get(`/like/${videoId}`)
-    setLikeCount(lRes.data?.data?.likes ? lRes.data ?.data?.likes:0)
+  async function handleLike() {
+    const prevLikeCount = likesCount;
+    const prevMyLike = myLike;
+
+    // optimistic update
+    setLikeCount(myLike ? likesCount - 1 : likesCount + 1);
+    setMyLike(!myLike);
+
+    try {
+      await Api.get("/like/toggle/v/" + videoId);
+    } catch (err) {
+      // rollback on failure
+      setLikeCount(prevLikeCount);
+      setMyLike(prevMyLike);
+      console.error("Failed to toggle like:", err);
+    }
+  }
+
+  async function handleSubscription(){
+    const res = await Api.post(`/subscription/c/${videoDetail?.watch?.owner?._id}`)
+    const count = channel.isSubscribed?channel.subscribersCount-1:channel.subscribersCount+1
+    setChannel({isSubscribed:!channel.isSubscribed,subscribersCount:count})
   }
 
   const watch = videoDetail?.watch
@@ -97,7 +139,7 @@ export default function Video() {
                       <div className='vd-like' onClick={()=>{
                         handleLike()
                       }}>
-                        <ThumbsUp /> <span>{likesCount ?? 0}</span>
+                        {myLike?<ThumbsUp fill="#ae7aff"/>:<ThumbsUp/>} <span>{likesCount ?? 0}</span>
                       </div>
                       <div className='vd-save'>
                         <button><FolderPlus />Save</button>
@@ -105,19 +147,28 @@ export default function Video() {
                     </div>
                   </div>
 
-                  {watch?.channel && (
+                  {watch?.owner && (
                     <div className='vd-channel-row'>
                       <div className='vd-channel-left'>
                         <div className='vd-channel-logo'>
-                          <img src={watch.channel.logoUrl} alt={watch.channel.name ?? ''} />
+                          <img src={watch.owner.avatar} alt={watch.owner.username ?? ''} />
                         </div>
                         <div className='vd-channel-info'>
-                          <p>{watch.channel.name}</p>
-                          <span>{watch.channel.subscribers} Subscribers</span>
+                          <p>@{watch.owner.username}</p>
                         </div>
                       </div>
-                      <div className='vd-channel-right'>
-                        <button><UserPlus /> Subscribe</button>
+                      <div className='vd-channel-right'  >
+                        <button  onClick={handleSubscription}> 
+                          {channel.isSubscribed ? (
+                              <>
+                                  <UserCheck /> Subscribed
+                              </>
+                          ) : (
+                              <>
+                                  <UserPlus /> Subscribe
+                              </>
+                          )}
+                        </button>
                       </div>
                     </div>
                   )}
@@ -160,18 +211,11 @@ export default function Video() {
           </div>
 
           <div className='vd-list'>
-            {videoDetail?.suggestions?.map((item) => (
-              <div className='vd-list-item' key={item.id}>
-                <div className="vd-list-thumbnail" style={{ backgroundImage: `url(${item.thumbnailUrl})` }}>
-                  <span>{formatDuration(item.durationSeconds)}</span>
-                </div>
-                <div className='vd-list-info'>
-                  <div className='vd-list-title'>{item.title}</div>
-                  <div className='vd-list-channel'>{item.channelName}</div>
-                  <div className='vd-list-meta'>{item.views} Views · {item.uploadedAgo}</div>
-                </div>
-              </div>
-            ))}
+            {
+              videos?.map((video, key)=>{
+                      return <VideoCard video={video} current={"video"} key={key}/>
+              })
+            }
           </div>
         </div>
       </div>

@@ -4,15 +4,17 @@ import "../assets/css/Videos.css"
 import { Api } from '../api/Api';
 import VideoCard from './VideoCard';
 
-export default function Videos() {
+export default function Videos({current}) {
 
     const [videos, setVideos] = React.useState([])
     const [loading, setLoading] = React.useState(true)
+
 
     useEffect(() => {
         async function fetchData() {
             const res = await Api.get("/video")
             setVideos(res?.data?.data || [])
+            console.log(res.data.data)
             setLoading(false)
         }
         fetchData()
@@ -21,7 +23,7 @@ export default function Videos() {
     
 
     const videoElements = videos.map((video)=>{
-        return <VideoCard video={video}/>
+            return <VideoCard video={video} current={"home"}/>
     })
 
     if (loading) return null 
