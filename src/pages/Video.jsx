@@ -106,7 +106,7 @@ export default function Video() {
   }
 
   async function handleSubscription(){
-    const res = await Api.post(`/subscription/c/${videoDetail?.watch?.owner?._id}`)
+    Api.post(`/subscription/c/${videoDetail?.watch?.owner?._id}`)
     const count = channel.isSubscribed?channel.subscribersCount-1:channel.subscribersCount+1
     setChannel({isSubscribed:!channel.isSubscribed,subscribersCount:count})
   }
