@@ -10,6 +10,7 @@ import Loading from './components/Loading'
 import { NotificationProvider } from './context/Notificationcontext'
 import Video from './pages/Video'
 import LikedVideos from './pages/LikedVideos'
+import History from './pages/History'
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
           <Route path="/forget-password" element={<ForgetPassword/>}/>
           <Route path="/liked" element={<LikedVideos/>}/>
           <Route path="/video/:videoId" element={<Video/>}/>
+          <Route path="/history" element={<History />}/>
         </Routes>
       </BrowserRouter>
     </NotificationProvider>

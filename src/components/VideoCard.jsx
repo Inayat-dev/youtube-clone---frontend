@@ -49,8 +49,8 @@ function timeAgo(date) {
 export default function VideoCard({ video, current }) {
   const { _id, thumbnail, title, duration, views, createdAt, owner } = video;
 
-  const ownerName = owner[0]?.username || owner[0]?.fullName || "Unknown creator";
-  const ownerAvatar = owner[0]?.avatar;
+  const ownerName = owner[0]?.username || owner?.username || owner[0]?.fullName || "Unknown creator";
+  const ownerAvatar = owner[0]?.avatar || owner?.avatar;
   if(current == "home")
     return (
       <Link to={"/video/"+_id} className="videoCardLink">

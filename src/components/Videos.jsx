@@ -14,7 +14,6 @@ export default function Videos({current}) {
         async function fetchData() {
             const res = await Api.get("/video")
             setVideos(res?.data?.data || [])
-            console.log(res.data.data)
             setLoading(false)
         }
         fetchData()

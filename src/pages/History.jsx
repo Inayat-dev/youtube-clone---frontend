@@ -29,8 +29,9 @@ function Videos() {
 
     useEffect(() => {
         async function fetchData() {
-            const res = await Api.get("/video/likedvideos/video")
-            setVideos(res?.data?.data || [])
+            const res = await Api.get("/video/history/video")
+            setVideos(res?.data?.data.videos || [])
+            console.log(res.data.data.videos)
             setLoading(false)
         }
         fetchData()
@@ -39,7 +40,7 @@ function Videos() {
     
 
     const videoElements = videos.map((video,key)=>{
-            return <VideoCard video={video.video} key={key} current={"home"}/>
+            return <VideoCard video={video} key={key} current={"home"}/>
     })
 
     if (loading) return null 
