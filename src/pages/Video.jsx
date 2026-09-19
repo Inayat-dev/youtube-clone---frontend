@@ -6,6 +6,7 @@ import { ThumbsUp, FolderPlus, UserPlus, UserCheck } from 'lucide-react'
 import { Api } from '../api/Api'
 import { useParams } from 'react-router-dom'
 import VideoCard from '../components/VideoCard'
+import { X } from 'lucide-react';
 
 export default function Video() {
   const { videoId } = useParams()
@@ -17,6 +18,7 @@ export default function Video() {
   const [videos, setVideos] = useState();
   const [myLike, setMyLike] = useState();
   const [channel, setChannel] = useState();
+  const [playlistShow, setPlaylistShow] = useState(false);
 
 
   function formatDuration(seconds = 0) {
@@ -123,10 +125,37 @@ export default function Video() {
     setChannel({isSubscribed:!channel.isSubscribed,subscribersCount:count})
   }
 
+  function togglePlaylist(){
+    setPlaylistShow((prev)=>{return !prev})
+  }
+
   const watch = videoDetail?.watch
 
   return (
     <>
+    {playlistShow && <div className='playlist-container'>
+      <div className='playlist-divs'>
+        <div className='playlist-create'>
+          <form action="" className='create-playlist-form'>
+            <h3><span>Create Playlist</span><span onClick={togglePlaylist}><X></X></span></h3>
+            <input type="text" name='name' placeholder='name' />
+            <input type="text" name='description' placeholder='description' />
+            <button>Create</button>
+          </form>
+        </div>
+        <div className='save-video-playlist'>
+
+          <form action="" className='save-video-form'>
+            <h3>Save Video in Playlist</h3>
+            <span><input type="checkbox" value="music" name="playlist" id="playlist" /> music</span>
+            <span><input type="checkbox" value="music" name="playlist" id="playlist" /> gaming</span>
+            <span><input type="checkbox" value="music" name="playlist" id="playlist" /> song</span>
+            <span><input type="checkbox" value="music" name="playlist" id="playlist" /> entatainment</span>
+            <button>save</button>
+          </form>
+        </div>
+      </div>
+    </div>}
       <Header />
       <div style={{ display: 'flex' }}>
         <Sidebar />
@@ -154,7 +183,7 @@ export default function Video() {
                         {myLike?<ThumbsUp fill="#ae7aff"/>:<ThumbsUp/>} <span>{likesCount ?? 0}</span>
                       </div>
                       <div className='vd-save'>
-                        <button><FolderPlus />Save</button>
+                        <button onClick={togglePlaylist}><FolderPlus />Save</button>
                       </div>
                     </div>
                   </div>

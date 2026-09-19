@@ -346,3 +346,97 @@
   font-size: 0.875rem;
   color: #9ca3af;
 }
+
+.playlist-container{
+  backdrop-filter: blur(8px);
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 1000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.playlist-divs{
+  display: flex;
+  flex-direction: column;
+  background-color: #0f0f0f;
+  padding: 20px;
+  border: 1px solid white;
+  gap: 20px;
+  width: 400px;
+  max-width: 40%;
+}
+
+.playlist-create{
+  border-bottom: 2px solid white;
+  padding-bottom: 20px;
+}
+
+.create-playlist-form{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.create-playlist-form > h3{
+  display: flex;
+  justify-content: space-between;
+}
+
+.create-playlist-form > input{
+    background-color: black;
+    border: 1px solid white;
+    padding: 8px;
+    color: white;
+    font-size: 16px;
+}
+
+.create-playlist-form > button {
+    width: 100%;
+    background-color: #ae7aff;
+    text-align: center;
+    font-weight: 600;
+    color: #000000;
+    box-shadow: 5px 5px 0px 0px #4f4e4e;
+    transition: all 150ms ease-in-out;
+    font-size: medium;
+    padding: 5px;
+    margin: 5px auto;
+}
+
+.create-playlist-form > button:active {
+    transform: translate(5px, 5px);
+    box-shadow: 0px 0px 0px 0px #4f4e4e;
+}
+
+.save-video-playlist{
+  padding: 20px;
+}
+
+.save-video-form{
+  display:flex;
+  gap: 10px;
+  flex-direction: column;
+}
+
+.save-video-form > button{
+    width: 100%;
+    background-color: #ae7aff;
+    text-align: center;
+    font-weight: 600;
+    color: #000000;
+    box-shadow: 5px 5px 0px 0px #4f4e4e;
+    transition: all 150ms ease-in-out;
+    font-size: medium;
+    padding: 5px;
+    margin: 5px auto;
+}
+
+.create-playlist-form > button:active{
+  transform: translate(5px, 5px);
+  box-shadow: 0px 0px 0px 0px #4f4e4e;
+}
