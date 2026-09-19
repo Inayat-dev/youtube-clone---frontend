@@ -22,6 +22,7 @@ export default function AuthContext({ children }) {
     async function checkAuth() {
         try {
             const res = await Api.get('/users/me')
+            console.log(res.data)
             setUser(res.data)
         } catch (err) {
             setUser({ name: null, username: null, email: null, avatar: null })

@@ -59,10 +59,14 @@ export default function Video() {
         if (!ignore) setError(err)
       } finally {
         if (!ignore) setLoading(false)
-      }
-    
-      
+      } 
     }
+
+    async function getComment(){
+      const res = await Api.get("/comment/" + videoId)
+      setVideoDetail((prev)=>{return { ...prev, comments: res.data.data }})
+    }
+
     async function fetchData() {
         const res = await Api.get("/video")
         setVideos(res?.data?.data || [])
@@ -77,14 +81,22 @@ export default function Video() {
     fetchData()
     fetchVideo().then((res)=>{
       fetchChannel(res?.data?.data)
+      getComment();
     })
     return () => { ignore = true }
   }, [videoId])
 
-  function handleAddComment() {
+  async function handleAddComment() {
     if (!commentText.trim()) return
     // TODO: await Api.post(`/video/${videoId}/comments`, { text: commentText })
+    await Api.post("/comment/"+videoId,{content:commentText, videoId});
     setCommentText('')
+    getComment();
+  }
+
+  async function getComment(){
+    const res = await Api.get("/comment/" + videoId)
+    setVideoDetail((prev)=>{return { ...prev, comments: res.data.data }})
   }
 
   async function handleLike() {
@@ -155,6 +167,7 @@ export default function Video() {
                         </div>
                         <div className='vd-channel-info'>
                           <p>@{watch.owner.username}</p>
+                          <p>{channel?.subscribersCount} Subscribers</p>
                         </div>
                       </div>
                       <div className='vd-channel-right'  >
@@ -179,6 +192,20 @@ export default function Video() {
                   </div>
                 </div>
 
+                {/* <div className='playlist-container'>
+                  <div className='create-playlist'>
+                    <h3>Create Playlist</h3>
+                    <form className='playlist'>
+                      <input type="text" placeholder='Name' name='name'/>
+                      <input type="text" placeholder='Description' name='description'/>
+                      <button>Create</button>
+                    </form>
+                  </div>
+                  <div className='list-playlist'>
+                     
+                  </div>
+                </div> */}
+
                 <div className='vd-comments'>
                   <div className='vd-comments-counter'>
                     {videoDetail?.comments?.length ?? 0} Comments
@@ -194,14 +221,14 @@ export default function Video() {
                   </div>
 
                   {videoDetail?.comments?.map((comment) => (
-                    <div className='vd-comment-item' key={comment.id}>
+                    <div className='vd-comment-item' key={comment._id}>
                       <div className='vd-comment-avatar'>
-                        <img src={comment.avatarUrl} alt="" />
+                        <img src={comment.owner[0].avatar} alt="" />
                       </div>
                       <div className='vd-comment-body'>
-                        <div>{comment.userName} · {comment.uploadedAgo}</div>
-                        <div>@{comment.handle}</div>
-                        <div>{comment.text}</div>
+                        <div>{comment.owner[0].username} · {timeAgo(comment.createdAt)}</div>
+                        <div>@{comment.owner[0].username}</div>
+                        <div>{comment.content}</div>
                       </div>
                     </div>
                   ))}
