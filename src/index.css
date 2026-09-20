@@ -37,3 +37,7 @@ body{
     font-size: 14px;
     margin: 0;
 }
+/* width */
+*::-webkit-scrollbar {
+  display: none;
+}

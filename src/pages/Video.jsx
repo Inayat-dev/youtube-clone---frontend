@@ -19,6 +19,7 @@ export default function Video() {
   const [myLike, setMyLike] = useState();
   const [channel, setChannel] = useState();
   const [playlistShow, setPlaylistShow] = useState(false);
+  const [playlist, setPlaylist] = useState([])
 
 
   function formatDuration(seconds = 0) {
@@ -79,8 +80,14 @@ export default function Video() {
       const channel1 = await Api(`/subscription/channel/${res?.watch?.owner?._id}`);
       setChannel(channel1.data.data)
     }
+    
+    async function listPlaylist() {
+      const res = await Api.get("playlist")
+      setPlaylist(res?.data?.data)
+    }
 
     fetchData()
+    listPlaylist() 
     fetchVideo().then((res)=>{
       fetchChannel(res?.data?.data)
       getComment();
@@ -129,6 +136,25 @@ export default function Video() {
     setPlaylistShow((prev)=>{return !prev})
   }
 
+  async function createPlaylist(formData){
+    const res = await Api.post("/playlist",{name:formData.get('name'),description:formData.get('description') || ''})
+    setPlaylist((prev)=>{return [...prev, res.data.data]})
+  }
+
+  async function saveVideoToPlaylist(formData){
+    const pl = formData.getAll('playlist')
+    pl.map(async(_id)=>{
+      try{
+        Api.post("playlist/"+_id+"/"+videoId)
+      }catch(e){
+        console.error(e)
+      }
+    })
+
+  }
+
+
+
   const watch = videoDetail?.watch
 
   return (
@@ -136,21 +162,24 @@ export default function Video() {
     {playlistShow && <div className='playlist-container'>
       <div className='playlist-divs'>
         <div className='playlist-create'>
-          <form action="" className='create-playlist-form'>
+          <form action={createPlaylist} className='create-playlist-form'>
             <h3><span>Create Playlist</span><span onClick={togglePlaylist}><X></X></span></h3>
             <input type="text" name='name' placeholder='name' />
-            <input type="text" name='description' placeholder='description' />
+            <input type="text" name='description'  placeholder='description' />
             <button>Create</button>
           </form>
         </div>
         <div className='save-video-playlist'>
 
-          <form action="" className='save-video-form'>
+          <form action={saveVideoToPlaylist} className='save-video-form'>
             <h3>Save Video in Playlist</h3>
-            <span><input type="checkbox" value="music" name="playlist" id="playlist" /> music</span>
-            <span><input type="checkbox" value="music" name="playlist" id="playlist" /> gaming</span>
-            <span><input type="checkbox" value="music" name="playlist" id="playlist" /> song</span>
-            <span><input type="checkbox" value="music" name="playlist" id="playlist" /> entatainment</span>
+            {
+              playlist?.map((list)=>{
+                return (
+                  <span><input type="checkbox" value={list._id} name="playlist" id="playlist" /> {list.name}</span>
+                )
+              })
+            }
             <button>save</button>
           </form>
         </div>
