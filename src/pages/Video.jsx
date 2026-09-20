@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
 import "../assets/css/videoDetail.css"
@@ -7,8 +7,10 @@ import { Api } from '../api/Api'
 import { useParams } from 'react-router-dom'
 import VideoCard from '../components/VideoCard'
 import { X } from 'lucide-react';
+import { authContext } from '../context/AuthContext'
 
 export default function Video() {
+  const { user } = useContext(authContext)
   const { videoId } = useParams()
   const [videoDetail, setVideoDetail] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -82,7 +84,7 @@ export default function Video() {
     }
     
     async function listPlaylist() {
-      const res = await Api.get("playlist")
+      const res = await Api.get("/playlist/user/all/"+user?.data?._id)
       setPlaylist(res?.data?.data)
     }
 
