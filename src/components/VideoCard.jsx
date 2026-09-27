@@ -74,6 +74,7 @@ export default function VideoCard({ video, current }) {
 
   if(current == "video")
   return (
+
     <Link to={"/video/"+_id} className="videoCardLink">
       <div className='vd-list-item' key={_id}>
         <div className="vd-list-thumbnail" style={{ backgroundImage: `url(${thumbnail})` }}>
@@ -81,7 +82,7 @@ export default function VideoCard({ video, current }) {
         </div>
         <div className='vd-list-info'>
           <div className='vd-list-title'>{title}</div>
-          <div className='vd-list-channel'>{owner[0].username}</div>
+          <div className='vd-list-channel'>{owner[0]?.username  || owner?.username}</div>
           <div className='vd-list-meta'>{views} Views · {timeAgo(createdAt)}</div>
         </div>
       </div>

@@ -4,7 +4,7 @@ import Header from '../components/Header'
 import "../assets/css/videoDetail.css"
 import { ThumbsUp, FolderPlus, UserPlus, UserCheck } from 'lucide-react'
 import { Api } from '../api/Api'
-import { useParams } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 import VideoCard from '../components/VideoCard'
 import { X } from 'lucide-react';
 import { authContext } from '../context/AuthContext'
@@ -225,10 +225,14 @@ export default function Video() {
                         <div className='vd-channel-logo'>
                           <img src={watch.owner.avatar} alt={watch.owner.username ?? ''} />
                         </div>
-                        <div className='vd-channel-info'>
+                        <NavLink
+                          to={"/channel/" + watch?.owner?.username}
+                          style={{ textDecoration: "none", color: "inherit" }}
+                          className="vd-channel-info"
+                        >
                           <p>@{watch.owner.username}</p>
                           <p>{channel?.subscribersCount} Subscribers</p>
-                        </div>
+                        </NavLink>
                       </div>
                       <div className='vd-channel-right'  >
                         <button  onClick={handleSubscription}> 

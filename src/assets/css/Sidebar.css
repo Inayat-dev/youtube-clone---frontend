@@ -13,7 +13,7 @@
   top: 0;
   z-index: 10;
 }
-
+ 
 .sidebar__section { display: flex; flex-direction: column; gap: 10px; }
 .sidebar__section--bottom { margin-top: auto; }
 

@@ -11,6 +11,7 @@ import { NotificationProvider } from './context/Notificationcontext'
 import Video from './pages/Video'
 import LikedVideos from './pages/LikedVideos'
 import History from './pages/History'
+import ChannelProfile from './pages/ChannelProfile'
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
           <Route path="/forget-password" element={<ForgetPassword/>}/>
           <Route path="/liked" element={<LikedVideos/>}/>
           <Route path="/video/:videoId" element={<Video/>}/>
+          <Route path="/channel/:channelId" element={<ChannelProfile/>}/>
           <Route path="/history" element={<History />}/>
         </Routes>
       </BrowserRouter>
