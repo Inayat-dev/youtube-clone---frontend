@@ -15,7 +15,7 @@ const ChannelProfile = () => {
   const {channelId} = useParams();  
   const [activeTab, setActiveTab] = useState("Videos");
   const [channelDetail, setChannelDetail] = useState({
-    coverImage : "https://images.pexels.com/photos/1092424/pexels-photo-1092424.jpeg?auto=compress",
+    coverImage : defaultCoverImage,
     avatar : "https://images.pexels.com/photos/1115816/pexels-photo-1115816.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     fullName : "---- ----",
     username : "@----",
