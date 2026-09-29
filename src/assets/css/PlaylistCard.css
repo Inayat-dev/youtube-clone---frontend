@@ -1,0 +1,219 @@
+.pl-card {
+  --pl-radius: 6px;
+  color: #fff;
+  width: 100%;
+}
+
+/* ---------- media area ---------- */
+.pl-card__media {
+  all: unset;
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  cursor: pointer;
+  background: #1a1a1a;
+  border-radius: var(--pl-radius);
+  isolation: isolate;
+}
+
+/* playlist "stack" layers peeking above the thumbnail */
+.pl-card__media::before,
+.pl-card__media::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  height: 8px;
+  border-radius: var(--pl-radius) var(--pl-radius) 0 0;
+  transform: translateX(-50%);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: -1;
+}
+.pl-card__media::before {
+  width: 92%;
+  top: -8px;
+  background: #4a4a4a;
+}
+.pl-card__media::after {
+  width: 84%;
+  top: -15px;
+  background: #2f2f2f;
+}
+.pl-card__media:hover::before,
+.pl-card__media:focus-visible::before {
+  transform: translate(-50%, -3px);
+}
+.pl-card__media:hover::after,
+.pl-card__media:focus-visible::after {
+  transform: translate(-50%, -6px);
+}
+
+.pl-card__media:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.pl-card__img,
+.pl-card__empty {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--pl-radius);
+}
+.pl-card__img {
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 0.4s ease;
+}
+.pl-card__empty {
+  display: grid;
+  place-items: center;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* ---------- overlay ---------- */
+.pl-card__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 14px 16px;
+  border-radius: var(--pl-radius);
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.92) 0%,
+    rgba(0, 0, 0, 0.55) 45%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  transition: background 0.4s ease;
+}
+
+.pl-card__title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: left;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: font-size 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.pl-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+.pl-card__dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.7;
+}
+
+/* description: grid trick = smooth height animation, no fixed px */
+.pl-card__descWrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: grid-template-rows 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.3s ease 0.05s, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.pl-card__desc {
+  overflow: hidden;
+  min-height: 0;
+  margin: 0;
+  padding-top: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  text-align: left;
+  color: rgba(255, 255, 255, 0.9);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  transition: padding-top 0.4s ease;
+}
+
+/* ---------- hover / keyboard focus ---------- */
+.pl-card__media:hover .pl-card__title,
+.pl-card__media:focus-visible .pl-card__title {
+  font-size: 0.95rem; /* title chota */
+}
+.pl-card__media:hover .pl-card__descWrap,
+.pl-card__media:focus-visible .pl-card__descWrap {
+  grid-template-rows: 1fr; /* description upar aaye */
+  opacity: 1;
+  transform: translateY(0);
+}
+.pl-card__media:hover .pl-card__desc,
+.pl-card__media:focus-visible .pl-card__desc {
+  padding-top: 8px;
+}
+.pl-card__media:hover .pl-card__img,
+.pl-card__media:focus-visible .pl-card__img {
+  transform: scale(1.05);
+  filter: brightness(0.7);
+}
+.pl-card__media:hover .pl-card__overlay,
+.pl-card__media:focus-visible .pl-card__overlay {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.7) 60%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
+}
+
+/* ---------- footer ---------- */
+.pl-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: #aaa;
+}
+.pl-card__view {
+  color: #fff;
+  font-weight: 600;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+.pl-card:hover .pl-card__view {
+  opacity: 1;
+}
+
+/* touch devices: hover nahi hota, isliye description hamesha dikhao */
+@media (hover: none) {
+  .pl-card__descWrap {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    transform: none;
+  }
+  .pl-card__desc {
+    padding-top: 6px;
+    -webkit-line-clamp: 2;
+  }
+  .pl-card__title {
+    font-size: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pl-card *,
+  .pl-card *::before,
+  .pl-card *::after {
+    transition: none !important;
+  }
+}

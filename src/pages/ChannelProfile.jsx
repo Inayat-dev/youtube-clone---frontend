@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../assets/css/channel.css";
 import defaultCoverImage from "../assets/images/defaultCoverImage.jpg";
 import Header from "../components/Header";
@@ -7,12 +7,17 @@ import Sidebar from "../components/Sidebar";
 import { useParams } from "react-router-dom";
 import { Api } from "../api/Api";
 import VideoCard from "../components/VideoCard";
+import PlaylistCard from "../components/PlaylistCard";
+import TweetCard from "../components/Tweetcard";
 import "../assets/css/Videos.css"
+import { authContext } from "../context/AuthContext";
 
 const tabs = ["Videos", "Playlist", "Tweets", "Subscribed"];
 
 const ChannelProfile = () => {
-  const {channelId} = useParams();  
+  const {channelId} = useParams();
+  const { user } = useContext(authContext) ; 
+  console.log(user) 
   const [activeTab, setActiveTab] = useState("Videos");
   const [channelDetail, setChannelDetail] = useState({
     coverImage : defaultCoverImage,
@@ -24,6 +29,7 @@ const ChannelProfile = () => {
     email:"email@e.c",
     isSubscribed:false,
     videos : [],
+    playlist:[]
   });
 
   
@@ -32,16 +38,13 @@ const ChannelProfile = () => {
     async function fetchChannelData(){
       const res = await Api.post("/users/channel/c/"+channelId);
       const res2 = await Api.get("video/channel/"+res.data.data[0]._id);
-      console.log(res2)
-      setChannelDetail({...res.data.data[0], videos:res2.data.data})
+      const res3 = await Api.get("/playlist/user/all/"+res.data.data[0]._id);
+      const res4 = await Api.get("/tweet/search?username="+channelId);
+      setChannelDetail({...res.data.data[0], videos:res2.data.data,playlist:res3.data.data,tweets:res4.data.data})
       
     }
 
-    async function fetchVideo(){
-      
-    }
-
-    fetchChannelData()
+    fetchChannelData();
   },[])
 
   async function subscribe(){
@@ -50,9 +53,16 @@ const ChannelProfile = () => {
     setChannelDetail((prev)=>({...prev, isSubscribed:!prev.isSubscribed,subscribersCount:count}))
   }
 
+  const playlistComponent = channelDetail?.playlist.map((playlistItem)=>{
+    if(playlistItem.videos.length == 0){
+      
+    }else{
+      return <PlaylistCard playlist={playlistItem}></PlaylistCard>
+    }
+  })
+
   return (
   <div>
-    {console.log(channelDetail)}
     <Header></Header>
     <div style={{display:"flex"}}>
       <Sidebar></Sidebar>
@@ -133,11 +143,19 @@ const ChannelProfile = () => {
             }
           </div>}
 
-          {activeTab !== "Videos" && (
-            <div className="channel__empty">
-              <div className="channel__empty-card">
-                <h5>No {activeTab.toLowerCase()} yet</h5>
-              </div>
+          {activeTab == "Playlist" &&
+          (
+            <div className='video-container' style={{padding:"20px 0 0 0",gap:"20px"}}>
+              {playlistComponent}
+            </div>
+          )}
+
+          {activeTab == "Tweets" &&
+          (
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 20 }}>
+              {channelDetail?.tweets.map((t) => (
+                <TweetCard key={t._id} tweet={t} user={user.data} />
+              ))}
             </div>
           )}
         </div>

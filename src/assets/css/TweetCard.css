@@ -1,0 +1,190 @@
+.tw-card {
+  --tw-accent: #7c5cff;
+  position: relative;
+  overflow: hidden;
+  padding: 16px 18px 14px;
+  color: #fff;
+  background: #151515;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 6px;
+  cursor: default;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.3s ease, background 0.3s ease, box-shadow 0.35s ease;
+}
+
+/* accent bar grows from bottom to top on hover */
+.tw-card__bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 3px;
+  height: 0;
+  background: var(--tw-accent);
+  transition: height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.tw-card:hover,
+.tw-card:focus-visible {
+  transform: translateY(-4px);
+  background: #1b1b1b;
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
+  outline: none;
+}
+.tw-card:hover .tw-card__bar,
+.tw-card:focus-visible .tw-card__bar {
+  height: 100%;
+}
+
+/* ---------- header ---------- */
+.tw-card__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tw-card__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.tw-card__avatar--fallback {
+  display: grid;
+  place-items: center;
+  background: var(--tw-accent);
+  font-weight: 700;
+}
+.tw-card:hover .tw-card__avatar {
+  transform: scale(1.08) rotate(-3deg);
+}
+
+.tw-card__who {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.25;
+}
+.tw-card__name {
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tw-card__handle {
+  font-size: 0.8rem;
+  color: #9a9a9a;
+}
+.tw-card__time {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: #9a9a9a;
+  white-space: nowrap;
+}
+
+/* ---------- content ---------- */
+.tw-card__content {
+  margin: 14px 0 0;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  text-align: left;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+.tw-card__edited {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: #8a8a8a;
+  font-style: italic;
+}
+
+/* ---------- actions: slide up on hover ---------- */
+.tw-card__actionsWrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: grid-template-rows 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.3s ease 0.05s, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.tw-card__actions {
+  overflow: hidden;
+  min-height: 0;
+  display: flex;
+  gap: 8px;
+  padding-top: 0;
+  transition: padding-top 0.4s ease;
+}
+.tw-card:hover .tw-card__actionsWrap,
+.tw-card:focus-within .tw-card__actionsWrap {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transform: translateY(0);
+}
+.tw-card:hover .tw-card__actions,
+.tw-card:focus-within .tw-card__actions {
+  padding-top: 14px;
+}
+
+.tw-card__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font: inherit;
+  font-size: 0.85rem;
+  color: #ddd;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease,
+    transform 0.15s ease;
+}
+.tw-card__btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+.tw-card__btn:active {
+  transform: scale(0.94);
+}
+.tw-card__btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.tw-card__btn--like.is-liked {
+  color: #ff4d6d;
+  border-color: #ff4d6d;
+}
+.tw-card__btn--like.is-liked svg {
+  animation: tw-pop 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@keyframes tw-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.5); }
+  100% { transform: scale(1); }
+}
+
+/* touch devices: no hover, keep actions visible */
+@media (hover: none) {
+  .tw-card__actionsWrap {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    transform: none;
+  }
+  .tw-card__actions {
+    padding-top: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tw-card,
+  .tw-card *,
+  .tw-card *::before {
+    transition: none !important;
+    animation: none !important;
+  }
+}

@@ -7,7 +7,7 @@
   position: relative;
   width: 100%;
   min-height: 150px;
-  padding-top: 10.28%;
+  padding-top: 5.28%;
 }
 
 .channel__cover img {
@@ -107,10 +107,15 @@
   border-bottom: 2px solid #9ca3af;
   background-color: #121212;
   overflow-x: auto;
+  width: 100%;
 }
 
 .channel__tabs::-webkit-scrollbar {
   display: none;
+}
+
+.channel__tabs > li{
+  width: 100%;
 }
 
 .channel__tab {
@@ -127,6 +132,7 @@
 .channel__tab.is-active {
   border-bottom-color: #ae7aff;
   color: #ae7aff;
+  background-color: white;
 }
 
 .channel__empty {

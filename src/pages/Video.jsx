@@ -85,7 +85,7 @@ export default function Video() {
     
     async function listPlaylist() {
       const res = await Api.get("/playlist/user/all/"+user?.data?._id)
-      setPlaylist(res?.data?.data)
+      console.log(res.data.data)
     }
 
     fetchData()
@@ -117,7 +117,7 @@ export default function Video() {
     // optimistic update
     setLikeCount(myLike ? likesCount - 1 : likesCount + 1);
     setMyLike(!myLike);
-
+    
     try {
       await Api.get("/like/toggle/v/" + videoId);
     } catch (err) {
