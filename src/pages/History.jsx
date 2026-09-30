@@ -31,7 +31,6 @@ function Videos() {
         async function fetchData() {
             const res = await Api.get("/video/history/video")
             setVideos(res?.data?.data.videos || [])
-            console.log(res.data.data.videos)
             setLoading(false)
         }
         fetchData()

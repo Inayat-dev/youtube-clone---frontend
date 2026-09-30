@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import "./TweetCard.css";
+import "../assets/css/TweetCard.css";
+import { Api } from "../api/Api";
 
 const timeAgo = (date) => {
   const s = Math.floor((Date.now() - new Date(date).getTime()) / 1000);
@@ -28,19 +29,18 @@ const TweetCard = ({ tweet, user = {}, onLike, onShare }) => {
   const { content, createdAt, updatedAt } = tweet;
   const { name = "Unknown", username = "unknown", avatar } = user;
 
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(tweet.isLiked);
   const isEdited =
     new Date(updatedAt).getTime() - new Date(createdAt).getTime() > 1000;
 
-  const handleLike = (e) => {
+  const handleLike = async (e) => {
     e.stopPropagation();
+    const res = await Api.post("like/toggle/t/"+tweet._id)
+    console.log(res);
     setLiked((v) => !v);
     onLike?.(tweet, !liked);
   };
 
-  function likeTweet(){
-    
-  }
 
   return (
     <article className="tw-card">

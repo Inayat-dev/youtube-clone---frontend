@@ -1,0 +1,66 @@
+.subscriber-element {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  background: #121212;
+}
+
+.subscriber-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.subscriber-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #333;
+}
+
+.subscriber-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.subscriber-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.subscriber-info h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.subscriber-info span {
+  font-size: 16px;
+  color: #ddd;
+}
+
+.subscribe-btn {
+  padding: 12px 15px;
+  font-size: 18px;
+  color: #000;
+  background: #fff;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.subscribe-btn.subscribed {
+  background: #b57bff;
+}
+
+.subscribe-btn:hover {
+  opacity: 0.9;
+}

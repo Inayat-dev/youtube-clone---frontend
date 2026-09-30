@@ -11,8 +11,8 @@ export default function Videos({current}) {
 
 
     useEffect(() => {
-        async function fetchData() {
-            const res = await Api.get("/video")
+        async function fetchData(limit= 5,skip = 0) {
+            const res = await Api.get("/video?limit="+limit+"&skip="+skip)
             setVideos(res?.data?.data || [])
             setLoading(false)
         }

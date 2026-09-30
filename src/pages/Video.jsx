@@ -84,8 +84,7 @@ export default function Video() {
     }
     
     async function listPlaylist() {
-      const res = await Api.get("/playlist/user/all/"+user?.data?._id)
-      console.log(res.data.data)
+      Api.get("/playlist/user/all/"+user?.data?._id)
     }
 
     fetchData()

@@ -11,13 +11,13 @@ import PlaylistCard from "../components/PlaylistCard";
 import TweetCard from "../components/Tweetcard";
 import "../assets/css/Videos.css"
 import { authContext } from "../context/AuthContext";
+import Subscribers from "../components/Subscribers";
 
 const tabs = ["Videos", "Playlist", "Tweets", "Subscribed"];
 
 const ChannelProfile = () => {
   const {channelId} = useParams();
   const { user } = useContext(authContext) ; 
-  console.log(user) 
   const [activeTab, setActiveTab] = useState("Videos");
   const [channelDetail, setChannelDetail] = useState({
     coverImage : defaultCoverImage,
@@ -40,7 +40,8 @@ const ChannelProfile = () => {
       const res2 = await Api.get("video/channel/"+res.data.data[0]._id);
       const res3 = await Api.get("/playlist/user/all/"+res.data.data[0]._id);
       const res4 = await Api.get("/tweet/search?username="+channelId);
-      setChannelDetail({...res.data.data[0], videos:res2.data.data,playlist:res3.data.data,tweets:res4.data.data})
+      const res5 = await Api.get("/subscription/c/"+res.data.data[0]._id);
+      setChannelDetail({...res.data.data[0], videos:res2.data.data,playlist:res3.data.data,tweets:res4.data.data,subscribers:res5.data.data.subscribers})
       
     }
 
@@ -153,8 +154,17 @@ const ChannelProfile = () => {
           {activeTab == "Tweets" &&
           (
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 20 }}>
-              {channelDetail?.tweets.map((t) => (
+              {channelDetail?.tweets?.map((t) => (
                 <TweetCard key={t._id} tweet={t} user={user.data} />
+              ))}
+            </div>
+          )}
+
+          {activeTab == "Subscribed" &&
+          (
+            <div>
+              {channelDetail?.subscribers?.map((s) => (
+                <Subscribers key={s._id} subscriber={s} user={user.data} />
               ))}
             </div>
           )}
