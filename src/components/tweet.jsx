@@ -11,7 +11,7 @@ const timeAgo = (date) => {
     ["d", 86400],
     ["h", 3600],
     ["m", 60],
-  ];
+  ]; 
   for (const [label, secs] of units) {
     const n = Math.floor(s / secs);
     if (n >= 1) return `${n}${label} ago`;
